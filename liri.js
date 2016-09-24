@@ -1,18 +1,30 @@
+var spotify = require('spotify');
+
 //Switch statements to activate function call backs upon user input
 var liriCommands = process.argv[2];
-var spotifyInput = process.argv[3];
+var userInput = process.argv[3];
+
 
 function activateCommands(){
 	switch(liriCommands){
 		case "my-tweets":
 		getTweets();
 		break;
-
-		case "spotify-this-song" + spotifyInput:
+		//When user inputs song they need to include a + between words(look into fixing this if there is extra time)
+		case "spotify-this-song " + userInput:
 		getSpotify();
 		break;
+		//case "spotify-this-song"+" ":
+		//spotifyDefault();
+		//break;
+
+		case "movie-this " + userInput:
+		getMovie();
+		break;
 };
+
 };
+
 
 
 //grabs and creates variable for all twitter related content
@@ -47,10 +59,7 @@ var params = {screen_name : 'Odd_Realm', count : 20};
 
 //Spotify code 
 
-var spotify = require('spotify');
-
-
-	spotify.search({ type: 'track', limit : 2, query: spotifyInput }, function getSpotify (err, data) {
+	spotify.search({ type: 'track', query: userInput }, function getSpotify (err, data) {
 	    if ( err ) {
 	        console.log('Error occurred: ' + err);
 	        return;
@@ -72,3 +81,39 @@ var spotify = require('spotify');
 	 
 	   
 	});
+
+		//spotify.search({ type: 'track', query: "The Sign" }, function spotifyDefault (err, data) {
+		  //  if ( err ) {
+		    //    console.log('Error occurred: ' + err);
+		      //  return;
+		    //} 
+		    
+		    //else{
+		    //	console.log("Artist: " + data.tracks.items[2].artists[0].name);
+		    //	console.log("Preview: "  + data.tracks.items[2].preview_url);
+		    //	console.log("Song Name: " + data.tracks.items[2].name);
+		    //	console.log("Album Name: " + data.tracks.items[2].album.name);
+			//}
+		//});
+
+//omdb code ================================================
+
+var request = require("request");
+
+request('http://www.omdbapi.com/?t=' +userInput+ '&y=2016&plot=short&tomatoes=true&r=json', function getMovie(error, response, body){
+
+	if (!error && response.statusCode == 200){
+		console.log("Movie Title: "+JSON.parse(body)["Title"]);
+		console.log("Release Year: "+JSON.parse(body)["Year"]);
+		console.log("IMDB Rating: "+JSON.parse(body)["imdbRating"]);
+		console.log("Country: "+JSON.parse(body)["Country"]);
+		console.log("Language: "+JSON.parse(body)["Language"]);
+		console.log("Plot: "+JSON.parse(body)["Plot"]);
+		console.log("Actors: "+JSON.parse(body)["Actors"]);
+		console.log("Rotten Tomatoes Rating: "+JSON.parse(body)["tomatoRating"]);
+		console.log("Rotten Tomatoes Url: "+JSON.parse(body)["tomatoURL"]);
+	}else{
+		throw error;
+	}
+
+});
