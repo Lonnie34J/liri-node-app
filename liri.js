@@ -2,24 +2,23 @@ var spotify = require('spotify');
 
 //Switch statements to activate function call backs upon user input
 var liriCommands = process.argv[2];
+
 var userInput = process.argv[3];
+
 
 
 function activateCommands(){
 	switch(liriCommands){
 		case "my-tweets":
-		getTweets();
+		//getTweets();
 		break;
 		//When user inputs song they need to include a + between words(look into fixing this if there is extra time)
 		case "spotify-this-song " + userInput:
 		getSpotify();
 		break;
-		//case "spotify-this-song"+" ":
-		//spotifyDefault();
-		//break;
 
 		case "movie-this " + userInput:
-		getMovie();
+		//getMovie();
 		break;
 };
 
@@ -28,33 +27,33 @@ function activateCommands(){
 
 
 //grabs and creates variable for all twitter related content
-var twitterRequest = require("twitter");
-var keys = require("./keys");
-var twitterKeys = keys.twitterKeys;
-var myTweets = new twitterRequest(twitterKeys);
-//console.log(keys);
-//=========================================================//
+	var twitterRequest = require("twitter");
+	var keys = require("./keys");
+	var twitterKeys = keys.twitterKeys;
+	var myTweets = new twitterRequest(twitterKeys);
+	//console.log(keys);
+	//=========================================================//
 
 
-//sets the search parameters to a varible 
-var params = {screen_name : 'Odd_Realm', count : 20};
+	//sets the search parameters to a varible 
+	var params = {screen_name : 'Odd_Realm', count : 20};
 
-	myTweets.get('statuses/user_timeline', params, function getTweets (error, data, response) {
-  	if (!error) {
-  		//console.log(data[2].created_at);
-  		//console.log(data[2].text);
-  		var tweets = data;
-  		for (var i = 0; i<tweets.length; i++){
-  			console.log("=============================");
-  			console.log(tweets[i].created_at);
-  			console.log(tweets[i].text);
-  			console.log("=============================");
-  		}
-  	}
-  	else{
-  		throw error;
-  	}
-});
+		myTweets.get('statuses/user_timeline', params, function getTweets (error, data, response) {
+	  	if (!error) {
+	  		//console.log(data[2].created_at);
+	  		//console.log(data[2].text);
+	  		var tweets = data;
+	  		for (var i = 0; i<tweets.length; i++){
+	  			console.log("=============================");
+	  			console.log(tweets[i].created_at);
+	  			console.log(tweets[i].text);
+	  			console.log("=============================");
+	  		}
+	  	}
+	  	else{
+	  		throw error;
+	  	}
+	});
 
 
 //Spotify code 
@@ -82,19 +81,6 @@ var params = {screen_name : 'Odd_Realm', count : 20};
 	   
 	});
 
-		//spotify.search({ type: 'track', query: "The Sign" }, function spotifyDefault (err, data) {
-		  //  if ( err ) {
-		    //    console.log('Error occurred: ' + err);
-		      //  return;
-		    //} 
-		    
-		    //else{
-		    //	console.log("Artist: " + data.tracks.items[2].artists[0].name);
-		    //	console.log("Preview: "  + data.tracks.items[2].preview_url);
-		    //	console.log("Song Name: " + data.tracks.items[2].name);
-		    //	console.log("Album Name: " + data.tracks.items[2].album.name);
-			//}
-		//});
 
 //omdb code ================================================
 
